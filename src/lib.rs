@@ -1,3 +1,6 @@
+//! # Minigrep
+//!
+//! `minigrep` is a CLI tool to search a string in a file
 use std::{fs, env};
 use std::error::Error;
 
@@ -34,24 +37,34 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+/// Search the query string inside the contents and return a list of string
+///
+///# Examples
+///
+/// ```
+/// let query = "duct";
+/// let contents = "\
+/// Rust:
+/// Safe, fast, productive.
+/// Pick three.
+/// Duct one.";
+///
+/// assert_eq!(minigrep::search(query, contents), vec!["Safe, fast, productive."]);
+/// ```
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut results = Vec::new();
-    for line in contents.lines() {
-        if line.contains(query) {
-            results.push(line);
-        }
-    }
-    results
+    contents
+        .lines()
+        .into_iter()
+        .filter(|line| line.contains(query))
+        .collect()
 }
 
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut results = Vec::new();
-    for line in contents.lines() {
-        if line.to_lowercase().contains(&query.to_lowercase()) {
-            results.push(line);
-        }
-    }
-    results
+    contents
+        .lines()
+        .into_iter()
+        .filter(|line| line.to_lowercase().contains(&query.to_lowercase()))
+        .collect()
 }
 
 #[cfg(test)]
