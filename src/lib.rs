@@ -59,6 +59,20 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
         .collect()
 }
 
+/// Search the case insensitive query string inside the contents and return a list of string
+///
+///# Examples
+///
+/// ```
+/// let query = "rUsT";
+/// let contents = "\
+/// Rust:
+/// Safe, fast, productive.
+/// Pick three.
+/// Rust all the way.";
+///
+/// assert_eq!(minigrep::search_case_insensitive(query, contents), vec!["Rust:", "Rust all the way."]);
+/// ```
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     contents
         .lines()
